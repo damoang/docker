@@ -1,4 +1,5 @@
-FROM php:8.0.30-fpm
+#FROM php:8.0.30-fpm
+FROM php:7.3.20-fpm
 
 WORKDIR /root
 RUN apt-get update
