@@ -1,9 +1,7 @@
-#FROM php:8.0.30-fpm
 FROM php:7.3.20-fpm
 
 WORKDIR /root
 RUN apt-get update
-
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -25,11 +23,16 @@ RUN apt-get update && apt-get install -y \
     libxpm-dev \
     zip \
     libzip-dev \
-    unzip 
+    unzip
 
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath mysqli opcache zip
 RUN pecl install redis && docker-php-ext-enable redis
-RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
+
+# Adjusted GD configuration for PHP 7.3
+RUN docker-php-ext-configure gd \
+        --with-freetype-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ \
+        --with-webp-dir=/usr/include/
 
 RUN docker-php-ext-install gd
 
