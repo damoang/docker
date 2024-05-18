@@ -1,5 +1,19 @@
 version: '3.8'
 services:
+    mysql:
+        platform: linux/amd64   #mac arm chip
+        image: mysql:5.7
+        container_name: mysql
+        restart: always
+        environment:
+            MYSQL_DATABASE: gnuboard
+            MYSQL_USER: user
+            MYSQL_PASSWORD: 1234
+            MYSQL_ROOT_PASSWORD: root123
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mysql_data:/var/lib/mysql
     php:
         container_name: php
         build:
@@ -21,18 +35,5 @@ services:
             - php
         ports:
             - "80:80"
-    mysql:
-        container_name: mysql
-        image: mysql:8.0.33
-        environment:
-            MYSQL_ROOT_PASSWORD: admin
-            MYSQL_DATABASE: example_db
-            MYSQL_USER: user
-            MYSQL_PASSWORD: password
-        ports:
-            - "3306:3306"
-        volumes:
-            - mysql_data:/var/lib/mysql
-
 volumes:
     mysql_data:
